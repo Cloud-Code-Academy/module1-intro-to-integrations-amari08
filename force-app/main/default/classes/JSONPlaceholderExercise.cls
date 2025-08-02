@@ -18,11 +18,12 @@ public class JSONPlaceholderExercise {
         // 4. Send the request and get the response
         Http http = new Http();
         HttpResponse response = http.send(request);
-
-        System.debug('HTTP Response Body: ' + response.getBody());
-
         // 5. Return the response body as string
-        return response.getBody();
+        if (response.getStatusCode() == 200) {
+            return response.getBody();
+        } else {
+            throw new CalloutException('HTTP Request failed with status: ' + response.getStatusCode() + ' - ' + response.getStatus());
+        }
     }
     
     /**
@@ -47,7 +48,6 @@ public class JSONPlaceholderExercise {
         postData.put('body', body);
         postData.put('userId', userId);
         String jsonPayload = JSON.serialize(postData);
-        System.debug('Payload being sent to URL: ' + jsonPayload);
         // 5. Set the request body
         request.setBody(jsonPayload);
         request.setHeader('Content-Type', 'application/json');
@@ -55,7 +55,11 @@ public class JSONPlaceholderExercise {
         Http http = new Http();
         HttpResponse response = http.send(request);
         // 7. Return the response body as string
-        return response.getBody();
+        if (response.getStatusCode() == 201 || response.getStatusCode() == 200) {
+            return response.getBody();
+}       else {
+            throw new CalloutException('POST request failed with status: ' + response.getStatusCode());
+}
     }
     
     /**
@@ -76,7 +80,7 @@ public class JSONPlaceholderExercise {
         // 3. Set the HTTP method to 'PUT'
         request.setMethod('PUT');
         // 4. Create a JSON string with the updated post data
-         Map<String, Object> postData = new Map<String, Object>();
+        Map<String, Object> postData = new Map<String, Object>();
         postData.put('id', postId);
         postData.put('title', title);
         postData.put('body', body);
@@ -89,7 +93,11 @@ public class JSONPlaceholderExercise {
         Http http = new Http();
         HttpResponse response = http.send(request);
         // 7. Return the response body as string
-        return response.getBody();
+        if (response.getStatusCode() == 200) {
+            return response.getBody();
+}       else {
+            throw new CalloutException('PUT request failed with status: ' + response.getStatusCode());
+}
     }
     
     /**
@@ -118,7 +126,11 @@ public class JSONPlaceholderExercise {
         Http http = new Http();
         HttpResponse response = http.send(request);
         // 7. Return the response body as string
-        return response.getBody();
+        if (response.getStatusCode() == 200) {
+            return response.getBody();
+}       else {
+            throw new CalloutException('PATCH request failed with status: ' + response.getStatusCode());
+}
     }
     
     /**
@@ -139,6 +151,11 @@ public class JSONPlaceholderExercise {
         Http http = new Http();
         HttpResponse response = http.send(request);
         // 5. Return the response status code
-        return response.getStatusCode();
+        Integer statusCode = response.getStatusCode();
+        if (statusCode == 200 || statusCode == 202 || statusCode == 204) {
+            return statusCode;
+}       else {
+            throw new CalloutException('DELETE request failed with status: ' + statusCode + ' - ' + response.getStatus());
+}
     }
 } 
