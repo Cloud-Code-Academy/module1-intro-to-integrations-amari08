@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="https://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>CloudCodeHelloWorld</members>
+        <members>JSONPlaceholderExercise</members>
+        <members>JSONPlaceholderExerciseTest</members>
+        <members>JSONPlaceholderMock</members>
+        <name>ApexClass</name>
+    </types>
+    </Package>
